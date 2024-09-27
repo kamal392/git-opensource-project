@@ -17,5 +17,3 @@ var getRepoIssues = function (repo) {
   });
 };
 getRepoIssues("facebook/react");
-
-/
