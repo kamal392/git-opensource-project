@@ -5,7 +5,10 @@ var limitWarningEl = document.querySelector("#limit-warning");
 // function to the get the repo issues
 var getRepoIssues = function (repo) {
   // get api endpoint from github api https://api.github.com/orgs/ORG/issues
+  // get api endpoint from github api https://api.github.com/orgs/ORG/issues
   // format above endpoint to use it in fetch().
+  // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
+  //  testing using console.log(repo); to check if the url is providing data.
   // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
   //  testing using console.log(repo); to check if the url is providing data.
   var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
