@@ -1,10 +1,14 @@
 // create reference to dom element(issues container)
 var issueContainerEl = document.querySelector("#issues-container");
-
+// create reference to the dom element (to show a message if the repo has more than 30 issues);
+var limitWarningEl = document.querySelector("#limit-warning");
 // function to the get the repo issues
 var getRepoIssues = function (repo) {
   // get api endpoint from github api https://api.github.com/orgs/ORG/issues
+  // get api endpoint from github api https://api.github.com/orgs/ORG/issues
   // format above endpoint to use it in fetch().
+  // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
+  //  testing using console.log(repo); to check if the url is providing data.
   // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
   //  testing using console.log(repo); to check if the url is providing data.
   var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
@@ -15,6 +19,12 @@ var getRepoIssues = function (repo) {
         // console.log(data);
         //pas data to the dom function displayIssues
         displayIssues(data);
+
+        // check if api has paginated link coz github api can display only 30 issues at time
+        if (response.headers.get("link")) {
+          //   console.log("repo has more than 30 issues");
+          displayWarning(repo);
+        }
       });
     } else {
       alert("There was a problem with your request");
@@ -54,6 +64,22 @@ var displayIssues = function (issues) {
     issueContainerEl.appendChild(issueEl);
   }
 };
+
+// create a function to display warning
+var displayWarning = function (repo) {
+  // add text to warning container
+  limitWarningEl.textContent = "To see more than 30 issues, visit ";
+
+  // create link element
+  var linkEl = document.createElement("a");
+  linkEl.textContent = "GitHub.com";
+  linkEl.setAttribute("href", "https://github.com/" + repo + "/issues");
+  linkEl.setAttribute("target", "_blank");
+
+  // append to warning container
+  limitWarningEl.appendChild(linkEl);
+};
 // calling getRepoIssues function
-getRepoIssues("kamal392/git-it-done");
+getRepoIssues("facebook/react");
+
 
