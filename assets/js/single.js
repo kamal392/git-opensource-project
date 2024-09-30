@@ -1,12 +1,28 @@
-// create reference to dom element(issues container)
+// create a reference to dom element(issues container)
 var issueContainerEl = document.querySelector("#issues-container");
-// create reference to the dom element (to show a message if the repo has more than 30 issues);
+// create a reference to the dom element (to show a message if the repo has more than 30 issues);
 var limitWarningEl = document.querySelector("#limit-warning");
-// function to the get the repo issues
+// create a reference to the repo name element
+var repoNameEl = document.querySelector("#repo-name");
+
+// function to get the repo name
+var getRepoName = function () {
+  var queryString = document.location.search;
+  var repoName = queryString.split("=")[1];
+  // using if and else statement to check if the user has enter the valid repo name
+  if (repoName) {
+    // display repo name on the page
+    repoNameEl.textContent = repoName;
+    getRepoIssues(repoName);
+  } else {
+    // if no repo was given redirect to the homepage using location api method replace("");
+    document.location.replace("./index.html");
+  }
+};
+
+//function to the get the repo issues
 var getRepoIssues = function (repo) {
-  // get api endpoint from github api https://api.github.com/orgs/ORG/issues
-  // get api endpoint from github api https://api.github.com/orgs/ORG/issues
-  // format above endpoint to use it in fetch().
+  // get api endpoint from github api https://api.github.com/orgs/ORG/issues . format the endpoint to use it in fetch().
   // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
   //  testing using console.log(repo); to check if the url is providing data.
   // using ?direction=asc to change the direction of issues from descending order to accenting order since github provides issues in a descending order.
@@ -27,7 +43,9 @@ var getRepoIssues = function (repo) {
         }
       });
     } else {
-      alert("There was a problem with your request");
+      //  redirecting user back to the homepage if there is a problem with the request
+      document.location.replace("./index.html");
+      // alert("There was a problem with your request");
     }
   });
 };
@@ -79,5 +97,7 @@ var displayWarning = function (repo) {
   // append to warning container
   limitWarningEl.appendChild(linkEl);
 };
+
 // calling getRepoIssues function
-getRepoIssues("facebook/react");
+// getRepoIssues("facebook/react");
+getRepoName();

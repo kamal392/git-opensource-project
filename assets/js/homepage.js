@@ -65,9 +65,12 @@ var displayRepos = function (repos, searchTerm) {
     // format repo name
     var repoName = repos[i].owner.login + "/" + repos[i].name;
     // create a container for each loop
-    var repoEl = document.createElement("div");
+    // var repoEl = document.createElement("div"); converting this div element to a link element
+    var repoEl = document.createElement("a");
     repoEl.classList = "list-item flex-row justify-space-between align-center";
-
+    // added link to repo so that when a user click on the repo it will the take the issues correspondents to the repos
+    //adjust the href value so the the user can see the issues associated with selected repo
+    repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
     //create span element to hold repository name
     var titleEl = document.createElement("span");
     titleEl.textContent = repoName;
@@ -95,6 +98,5 @@ var displayRepos = function (repos, searchTerm) {
     repoContainerEl.appendChild(repoEl);
   }
 };
-
 // add submit event listener to the userFormEl
 userFormEl.addEventListener("submit", formSubmitHandler);
