@@ -27,11 +27,12 @@
     </header>
 
     <main class="flex-row justify-space-between">
-      <!-- dividing main page into 2 column -->
+      <!-- dividing main page into 2 column user form and language selection-->
       <!-- user input form -->
       <div class="col-12 col-md-4">
         <div class="card">
           <h3 class="card-header text-uppercase">Search By User</h3>
+          <!-- input box for the user to fill the user name  -->
           <form id="user-form" class="card-body">
             <label class="form-label" for="username">Username</label>
             <input
@@ -44,7 +45,17 @@
             <button type="submit" class="btn">Get User</button>
           </form>
         </div>
+        <!-- language options -->
+        <div class="card">
+          <h3 class="card-header text-uppercase">Search by Topic</h3>
+          <div class="card-body" id="language-buttons">
+            <button class="btn" data-language="Javascript">JavaScript</button>
+            <button class="btn" data-language="html">HTML</button>
+            <button class="btn" data-language="css">CSS</button>
+          </div>
+        </div>
       </div>
+
       <!--repo names -->
       <div class="col-12 col-md-8">
         <h2 class="subtitle">

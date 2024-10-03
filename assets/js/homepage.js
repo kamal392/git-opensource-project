@@ -4,10 +4,11 @@ var nameInputEl = document.querySelector("#username");
 // container(contains owner name ,repo name and issues)
 var repoContainerEl = document.querySelector("#repos-container");
 // repoSearchTermEl references to the user name
-var repoSearchTerm = document.querySelector("#repo-search-term");
+var repoSearchTermEl = document.querySelector("#repo-search-term");
+// create a variable to store reference to the buttons
+var languageButtonsEl = document.querySelector("#language-buttons");
 
 // functions for the app
-
 // formSubmitHandler function to handle the form
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -22,6 +23,19 @@ var formSubmitHandler = function (event) {
   } else {
     alert("Please enter a GitHub username");
   }
+};
+
+// create a function to handle button clicked
+var buttonClickHandler = function (event) {
+  // get the language attribute from the clicked element
+  var language = event.target.getAttribute("data-language");
+  // console.log(language);
+  // check if the use has selected the language or not if user selected the language call getFeatureRepo function
+  if (language) {
+    getFeatureRepos(language);
+  }
+  //clear old content
+  repoContainerEl.textContent = "";
 };
 
 // create function to get user repos
@@ -59,7 +73,7 @@ var displayRepos = function (repos, searchTerm) {
   }
   // working with the input data user , always make sure to clear out the old content before display the new content.
   repoContainerEl.textContent = "";
-  repoSearchTerm.textContent = searchTerm;
+  repoSearchTermEl.textContent = searchTerm;
   // loop over repos
   for (var i = 0; i < repos.length; i++) {
     // format repo name
@@ -98,5 +112,29 @@ var displayRepos = function (repos, searchTerm) {
     repoContainerEl.appendChild(repoEl);
   }
 };
+
+//create a function that accept language a as a parameter to display featured repository for a selected repos
+var getFeatureRepos = function (language) {
+  // "https://api.github.com/search/repositories?q=Q"
+  // format the search api point we got from github api endpoints
+
+  var apiUrl =
+    "https://api.github.com/search/repositories?q=" +
+    language +
+    "+is:featured&sort=help-wanted-issues";
+  fetch(apiUrl).then(function (response) {
+    if (response.ok) {
+      // console.log(response);
+      response.json().then(function (data) {
+        displayRepos(data.items, language);
+      });
+    } else {
+      alert("Error:Github User Not Found");
+    }
+  });
+};
+
 // add submit event listener to the userFormEl
 userFormEl.addEventListener("submit", formSubmitHandler);
+// add event listener to the div element that holds 3 buttons (using delegation )
+languageButtonsEl.addEventListener("click", buttonClickHandler);
